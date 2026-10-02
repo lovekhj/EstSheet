@@ -46,6 +46,22 @@
 
 ---
 
+## 🌐 GitHub Pages 웹 호스팅 설정 요약 (Live Deployment)
+
+GitHub에서 제공하는 **GitHub Pages** 서비스를 이용하면 설치 없이 웹 브라우저 주소만으로 이 견적서 프로그램을 인터넷에 바로 공개할 수 있습니다.
+
+### 📍 간단 설정 3단계
+1. GitHub의 `EstSheet` 저장소 ➔ **`Settings`** (⚙️) 클릭
+2. 좌측 메뉴 ➔ **`Pages`** 선택
+3. **Branch**를 `main` / `/ (root)` 로 지정 후 **`Save`** 클릭
+4. 약 1~3분 뒤 배포된 웹사이트 주소 생성: **`https://사용자이름.github.io/EstSheet/`**
+
+> 💡 **상세 설정 및 보안 가이드 문서**:
+> - 📄 [Git 등록 및 GitHub Pages 설정 가이드](etc/git_process.md)
+> - 🔒 [Private(비공개) 저장소 호스팅 및 Pro 플랜 가이드](etc/git_privacy.md)
+
+---
+
 ## 📁 프로젝트 구조 (Project Structure)
 
 ```text
@@ -55,6 +71,9 @@ EstSheet/
 ├── script.js        # 자동 계산, 한글 변환, 방향키 이동, ExcelJS 저장 로직
 ├── sample/
 │   └── 견적서양식_sample.xlsx  # 엑셀 샘플 양식 파일
+├── etc/
+│   ├── git_process.md # Git 소스 올리기 & GitHub Pages 설정 가이드
+│   └── git_privacy.md # Private 저장소 및 유료 플랜(GitHub Pro) 가이드
 └── README.md        # 프로젝트 설명 문서
 ```
 
@@ -99,3 +118,4 @@ cd EstSheet
 ## 📄 라이선스 (License)
 
 이 프로젝트는 [MIT License](./LICENSE)를 따릅니다. 자유롭게 수정 및 활용하실 수 있습니다.
+
