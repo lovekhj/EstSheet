@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>웹 견적서 프로그램</title>
+    <!-- 스타일 시트 연결: 디자인을 담당하는 파일을 불러옵니다. -->
+    <link rel="stylesheet" href="style.css">
+    <!-- 폰트 로드: 구글 폰트에서 Noto Sans KR을 가져옵니다. -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap"
+        rel="stylesheet">
+    <!-- ExcelJS 라이브러리 추가: 엑셀 파일을 읽고 쓰기 위함 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/exceljs/4.3.0/exceljs.min.js"></script>
+</head>
+
+<body>
+
+    <!-- A4 용지 크기의 메인 컨테이너입니다. -->
+    <div class="page-container">
+
+        <!-- 제목 영역 -->
+        <header class="header">
+            <h1 class="title">견 적 서</h1>
+            <div class="header-info">
+                <!-- 왼쪽: 받는 사람 정보 및 견적 일자 -->
+                <div class="recipient-section">
+                    <div class="row">
+                        <span class="label">일 자 :</span>
+                        <input type="text" id="date-year" class="input-date" style="width: 40px; text-align: right;">년
+                        <input type="text" id="date-month" class="input-date" style="width: 25px; text-align: right;">월
+                        <input type="text" id="date-day" class="input-date" style="width: 25px; text-align: right;">일
+                    </div>
+                    <div class="row">
+                        <span class="label">수 신 :</span>
+                        <div style="display: flex; align-items: center; border-bottom: 1px solid #ccc; flex: 1;">
+                            <input type="text" id="recipient-name"
+                                style="border: none; outline: none; font-size: 13px; font-weight: bold; flex: 1; width: auto; font-family: inherit; background: transparent; text-align: left;">
+                            <span
+                                style="font-weight: bold; font-size: 11px; margin-left: 2px; white-space: nowrap;">귀하</span>
+                        </div>
+                    </div>
+
+                    <div class="summary-line">
+                        아래와 같이 견적합니다.
+                    </div>
+                </div>
+
+                <!-- 오른쪽: 공급자 정보 (표 형태) -->
+                <div class="provider-section">
+                    <table class="provider-table">
+                        <tr>
+                            <td rowspan="6" class="vertical-text">공급자</td>
+                            <td class="label-cell">등록번호</td>
+                            <td colspan="3"><input type="text" value="151-22-00862"></td>
+                        </tr>
+                        <tr>
+                            <td class="label-cell">상호</td>
+                            <td><input type="text" value="서부시스템"></td>
+                            <td class="label-cell">성명</td>
+                            <td><input type="text" value="이성혁"> (인)</td>
+                        </tr>
+                        <tr>
+                            <td class="label-cell">주소</td>
+                            <td colspan="3"><input type="text" value="서울시 양천구 신정이펜1로 50 315-506"></td>
+                        </tr>
+                        <tr>
+                            <td class="label-cell">업태</td>
+                            <td><input type="text" value="서비스 건설업"></td>
+                            <td class="label-cell">종목</td>
+                            <td><input type="text" value="냉난방기 건축수리"></td>
+                        </tr>
+                        <tr>
+                            <td class="label-cell">전화번호</td>
+                            <td colspan="3"><input type="text" value="010-9311-9311 / Fax 0508-935-9311"></td>
+                        </tr>
+                        <tr>
+                            <td class="label-cell">은행</td>
+                            <td colspan="3"><input type="text" value="SC제일은행  이성혁    403 - 20 - 016344"></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <!-- 합계금액을 하단으로 이동 (전체 너비 사용) -->
+            <div class="total-summary-container">
+                <span class="label">합계금액 :</span>
+                <span class="currency">일금</span>
+                <span id="header-total-korean" class="korean-money"></span>
+                <span class="currency">원정</span>
+                <span class="total-number">(₩ <span id="header-total-number">0</span>)</span>
+            </div>
+
+            <!-- 부가세 체크박스를 합계금액 바로 아래 줄에 추가 -->
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 5px;">
+                <label style="cursor: pointer; font-size: 13px; font-weight: bold;">
+                    <input type="checkbox" id="vat-check"> 부가세포함(체크 시 세액 자동 계산)
+                </label>
+                <span style="font-size: 12px; color: #666; font-weight: normal;">
+                    ※ 최대 18개 품목까지 입력 가능합니다
+                </span>
+            </div>
+        </header>
+
+        <!-- 메인 견적 내용 테이블 -->
+        <main class="content">
+            <!-- 버튼 영역 (인쇄 시 숨김) -->
+            <div class="button-group">
+                <button onclick="resetPage()" class="btn btn-reset">초기화</button>
+                <button onclick="downloadExcel()" class="btn btn-excel">엑셀 저장</button>
+            </div>
+
+            <table class="quote-table" id="quote-table">
+                <thead>
+                    <tr>
+                        <th class="col-no">No</th>
+                        <th class="col-subject">품명</th>
+                        <th class="col-spec">규격</th>
+                        <th class="col-qty">수량</th>
+                        <th class="col-price">단가</th>
+                        <th class="col-amount">공급가액</th>
+                        <th class="col-tax">세액</th>
+                        <th class="col-note">비고</th>
+                    </tr>
+                </thead>
+                <tbody id="table-body">
+                    <!-- 자바스크립트(script.js)가 이곳에 자동으로 24개 줄을 추가합니다. -->
+                </tbody>
+                <tfoot>
+                    <tr class="sum-row">
+                        <td colspan="5" style="text-align: center;">합 계</td>
+                        <td id="footer-supply-total">0</td>
+                        <td id="footer-tax-total">0</td>
+                        <td></td>
+                    </tr>
+                </tfoot>
+            </table>
+
+            <!-- 합계 아래 입력 영역 (특기/참고사항 3줄) -->
+            <div class="bottom-section">
+                <table class="bottom-table">
+                    <tbody>
+                        <tr>
+                            <td class="bottom-label" rowspan="3">특기<br>사항</td>
+                            <td class="bottom-input-cell"><input type="text" id="note-line1" placeholder="특기사항 1번째 줄 입력"></td>
+                        </tr>
+                        <tr>
+                            <td class="bottom-input-cell"><input type="text" id="note-line2" placeholder="특기사항 2번째 줄 입력"></td>
+                        </tr>
+                        <tr>
+                            <td class="bottom-input-cell"><input type="text" id="note-line3" placeholder="특기사항 3번째 줄 입력"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </main>
+
+    </div>
+
+    <!-- 자바스크립트 연결: 기능을 담당하는 파일을 불러옵니다. -->
+    <script src="script.js"></script>
+</body>
+
+</html>

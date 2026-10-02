@@ -1,0 +1,435 @@
+/* 기본 설정: 모든 요소의 여백과 박스 크기 계산 방식을 초기화합니다. */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: #f0f0f0;
+    /* 배경색은 옅은 회색으로 설정 */
+    font-family: 'Noto Sans KR', sans-serif;
+    /* 폰트는 가독성 좋은 Noto Sans KR 사용 */
+    display: flex;
+    justify-content: center;
+    padding: 40px 0;
+}
+
+/* A4 용지 크기와 모양을 본뜬 컨테이너 */
+.page-container {
+    width: 210mm;
+    /* A4 너비 */
+    min-height: 297mm;
+    /* A4 높이 */
+    background: white;
+    padding: 20mm;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    /* 종이처럼 보이게 그림자 효과 */
+    display: flex;
+    flex-direction: column;
+}
+
+/* --- 상단 제목 및 정보 영역 스타일 --- */
+.header {
+    margin-bottom: 10px;
+    /* 20px -> 10px (합계 줄이 생겨서 조금 줄임) */
+}
+
+.title {
+    text-align: center;
+    font-size: 24px;
+    /* 36px -> 24px */
+    letter-spacing: 7px;
+    /* 글자 사이 간격을 넓혀서 제목처럼 보이게 함 */
+    margin-bottom: 20px;
+    text-decoration: underline;
+    text-underline-offset: 7px;
+}
+
+.header-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    /* 아래쪽 라인을 맞춤 */
+}
+
+/* 왼쪽: 수신자 정보 */
+.recipient-section {
+    flex: 1;
+    padding-right: 20px;
+}
+
+.recipient-section .row {
+    margin-bottom: 5px;
+    font-size: 11px;
+    /* 16px -> 11px */
+    border-bottom: 1px solid #ccc;
+    /* 밑줄 만들기 */
+    display: flex;
+    padding-bottom: 2px;
+}
+
+.recipient-section .label {
+    width: 45px;
+    font-weight: bold;
+}
+
+.input-underline {
+    border: none;
+    outline: none;
+    font-size: 13px;
+    /* 11px -> 13px */
+    font-weight: bold;
+    /* 굵게 */
+    font-family: inherit;
+    width: 100%;
+    background: transparent;
+}
+
+.input-date {
+    border: none;
+    outline: none;
+    font-size: 13px;
+    font-weight: bold;
+    font-family: inherit;
+    background: transparent;
+    border-bottom: 1px solid #ccc;
+    /* 날짜 입력칸만 밑줄 */
+}
+
+.summary-line {
+    margin: 15px 0 8px 0;
+    font-size: 10px;
+    /* 14px -> 10px */
+}
+
+/* 기존 total-summary 제거하고 새로운 스타일 추가 */
+.total-summary-container {
+    width: 100%;
+    margin-top: 15px;
+    border-bottom: 2px solid black;
+    /* 전체 너비 밑줄 */
+    padding-bottom: 5px;
+    font-size: 14px;
+    /* 중요하니까 약간 키움 (본문 11-12px 대비) */
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+}
+
+.total-summary-container .label {
+    margin-right: 10px;
+}
+
+.korean-money {
+    color: #333;
+    margin: 0 5px;
+}
+
+/* 오른쪽: 공급자 정보 테이블 */
+.provider-section {
+    flex: 1;
+}
+
+.provider-table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 2px solid black;
+    /* 빨간색 -> 검정색 변경 */
+    color: black;
+    /* 글자색도 검정색 변경 */
+}
+
+.provider-table td {
+    border: 1px solid #000;
+    /* 테두리도 검정 계열로 변경 */
+    padding: 3px;
+    text-align: center;
+    font-size: 9px;
+    /* 13px -> 9px */
+}
+
+.provider-table input {
+    width: 100%;
+    border: none;
+    text-align: center;
+    color: inherit;
+    /* 부모 색상(붉은색) 상속 */
+    font-family: inherit;
+    outline: none;
+    background: transparent;
+    font-weight: bold;
+    font-size: 10px;
+    /* 8px -> 10px */
+}
+
+.vertical-text {
+    width: 20px;
+    /* 30px -> 20px */
+    writing-mode: vertical-lr;
+    /* 글자를 세로로 쓰기 */
+    letter-spacing: 3px;
+    font-weight: bold;
+    background-color: #f0f0f0;
+    /* 배경색 회색으로 은은하게 */
+}
+
+.label-cell {
+    background-color: #f0f0f0;
+    font-weight: bold;
+    width: 45px;
+    /* 60px -> 45px */
+}
+
+/* --- 메인 테이블 스타일 --- */
+.quote-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+    border: 2px solid black;
+}
+
+.quote-table th,
+.quote-table td {
+    border: 1px solid #888;
+    padding: 2px;
+    text-align: center;
+    font-size: 10px;
+    /* 14px -> 10px */
+}
+
+/* 헤더 스타일 */
+.quote-table th {
+    background-color: #eee;
+    height: 25px;
+    /* 35px -> 25px */
+    font-weight: bold;
+}
+
+/* 각 열의 너비 조정 */
+.col-no {
+    width: 30px;
+    /* 40px -> 30px */
+}
+
+.col-subject {
+    width: 140px;
+    /* 품명(140px) */
+}
+
+/* 단가(70px)와 동일한 너비로 설정 */
+.col-spec {
+    width: 70px;
+    /* 규격(70px) */
+}
+
+.col-qty {
+    width: 45px;
+    /* 60px -> 45px */
+}
+
+.col-price {
+    width: 70px;
+    /* 단가 기준 (70px) */
+}
+
+.col-amount {
+    width: 70px;
+    /* 공급가액 (70px) */
+}
+
+.col-tax {
+    width: 70px;
+    /* 세액 (70px) */
+}
+
+.col-note {
+    width: 150px;
+    /* 비고 (150px) */
+}
+
+/* 테이블 내부 인풋 스타일 */
+.quote-table input {
+    width: 100%;
+    border: none;
+    outline: none;
+    font-family: inherit;
+    text-align: center;
+    font-size: 10px;
+    /* 14px -> 10px */
+    background: transparent;
+}
+
+/* 기본 텍스트 입력칸은 중앙 정렬 */
+.quote-table input[type="text"] {
+    text-align: center;
+}
+
+/* 숫자가 들어가는 칸은 오른쪽 정렬 */
+.quote-table input[type="number"],
+.price,
+.amount,
+.tax,
+.num-input {
+    text-align: right;
+    padding-right: 5px;
+}
+
+/* 비고 입력칸은 좌측 정렬 (왼쪽 여백 포함) */
+.quote-table input.note {
+    text-align: left !important;
+    padding-left: 5px;
+}
+
+/* 크롬, 사파리, 엣지, 오페라 등에서 화살표(스피너) 숨기기 */
+.quote-table input[type="number"]::-webkit-outer-spin-button,
+.quote-table input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* 파이어폭스에서 화살표 숨기기 */
+.quote-table input[type="number"] {
+    -moz-appearance: textfield;
+    appearance: textfield;
+    /* 표준 속성 추가 */
+}
+
+/* 합계 줄 스타일 */
+.sum-row {
+    background-color: #f7f7f7;
+    font-weight: bold;
+    height: 25px;
+    /* 30px -> 25px */
+}
+
+/* --- 하단 영역 --- */
+.footer {
+    margin-top: 20px;
+    text-align: center;
+}
+
+
+
+.vat-control {
+    border: 1px dashed #ccc;
+    padding: 10px;
+    display: inline-block;
+    border-radius: 5px;
+    background: #f9f9f9;
+}
+
+.vat-control label {
+    cursor: pointer;
+    font-weight: bold;
+    color: #555;
+}
+
+/* 컨트롤 버튼 스타일 */
+.button-group {
+    text-align: right;
+    margin-bottom: 5px;
+}
+
+.btn {
+    padding: 5px 15px;
+    font-size: 13px;
+    font-weight: bold;
+    cursor: pointer;
+    border: 1px solid #ccc;
+    background-color: #fff;
+    border-radius: 3px;
+    margin-left: 5px;
+}
+
+.btn-reset {
+    background-color: #d9534f;
+    /* 빨간색 배경 */
+    color: white;
+    /* 흰색 글자 */
+    border-color: #d9534f;
+}
+
+.btn-reset:hover {
+    background-color: #c9302c;
+    /* 호버 시 약간 더 진하게 */
+    border-color: #ac2925;
+}
+
+.btn-excel {
+    background-color: #0275d8;
+    /* 파란색 배경 */
+    color: white;
+    /* 흰색 글자 */
+    border-color: #0275d8;
+}
+
+.btn-excel:hover {
+    background-color: #025aa5;
+    /* 호버 시 약간 더 진하게 */
+    border-color: #01549b;
+}
+
+/* --- 하단 입력 영역 스타일 --- */
+.bottom-section {
+    margin-top: 10px;
+    width: 100%;
+}
+
+.bottom-table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 2px solid black;
+}
+
+.bottom-label {
+    width: 65px;
+    background-color: #eee;
+    text-align: center;
+    font-size: 10px;
+    font-weight: bold;
+    border: 1px solid #888;
+    padding: 2px;
+}
+
+.bottom-input-cell {
+    border: 1px solid #888;
+    padding: 2px 5px;
+    height: 22px;
+}
+
+.bottom-input-cell input {
+    width: 100%;
+    border: none;
+    outline: none;
+    font-size: 10px;
+    font-family: inherit;
+    background: transparent;
+}
+
+/* --- 인쇄 시 설정 --- */
+@media print {
+
+    /* 인쇄할 때는 버튼 숨기기 */
+    .button-group {
+        display: none;
+    }
+
+    body {
+        background: none;
+        padding: 0;
+    }
+
+    .page-container {
+        box-shadow: none;
+        width: 100%;
+        margin: 0;
+        padding: 0;
+    }
+
+    /* 인쇄할 때는 체크박스 배경 박스 숨기기 등 깔끔하게 */
+    .vat-control {
+        border: none;
+        background: none;
+    }
+}
