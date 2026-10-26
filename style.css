@@ -219,8 +219,8 @@ body {
 
 /* 단가(70px)와 동일한 너비로 설정 */
 .col-spec {
-    width: 70px;
-    /* 규격(70px) */
+    width: 110px;
+    /* 규격(110px) */
 }
 
 .col-qty {
@@ -244,8 +244,8 @@ body {
 }
 
 .col-note {
-    width: 150px;
-    /* 비고 (150px) */
+    width: 110px;
+    /* 비고 (110px) */
 }
 
 /* 테이블 내부 인풋 스타일 */
