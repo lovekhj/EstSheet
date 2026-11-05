@@ -213,8 +213,8 @@ body {
 }
 
 .col-subject {
-    width: 140px;
-    /* 품명(140px) */
+    width: 120px;
+    /* 품명(120px) - 단위 칸 확보를 위해 축소 */
 }
 
 /* 단가(70px)와 동일한 너비로 설정 */
@@ -226,6 +226,11 @@ body {
 .col-qty {
     width: 45px;
     /* 60px -> 45px */
+}
+
+.col-unit {
+    width: 40px;
+    /* 단위 (40px) */
 }
 
 .col-price {
@@ -244,8 +249,8 @@ body {
 }
 
 .col-note {
-    width: 110px;
-    /* 비고 (110px) */
+    width: 90px;
+    /* 비고 (90px) - 단위 칸 확보를 위해 축소 */
 }
 
 /* 테이블 내부 인풋 스타일 */
@@ -258,6 +263,19 @@ body {
     font-size: 10px;
     /* 14px -> 10px */
     background: transparent;
+}
+
+/* 단위 콤보 박스 */
+.quote-table select {
+    width: 100%;
+    border: none;
+    outline: none;
+    font-family: inherit;
+    font-size: 10px;
+    text-align: center;
+    text-align-last: center;
+    background: transparent;
+    cursor: pointer;
 }
 
 /* 기본 텍스트 입력칸은 중앙 정렬 */
@@ -431,6 +449,12 @@ body {
         margin: 0;
         padding: 0;
         min-height: auto;
+    }
+
+    /* 인쇄할 때는 콤보 박스 화살표 숨기기 */
+    .quote-table select {
+        -webkit-appearance: none;
+        appearance: none;
     }
 
     /* 인쇄할 때는 체크박스 배경 박스 숨기기 등 깔끔하게 */
